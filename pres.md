@@ -1,6 +1,9 @@
-% Linuxservrar - hur! och var!
-% Niclas Stenberg
-% niclas.stenberg@orestad-linux.se
+---
+title: "Linuxservrar - hur! och var!"
+author: "Niclas Stenberg - niclas.stenberg@orestad-linux.se"
+date: 2024-11-04
+license:  "CC-BY-SA"
+---
 
 # Jag  (Niclas Stenberg)
 
@@ -8,7 +11,7 @@
 
 - TeknD i hållfasthetslära
 - Kört Linux sedan 1900-talet
-    - först lite, sedan 2002 fullt ut!
+    - först lite, sedan 2002 fullt ut
 - 14år på forskningsinstitut
     - beräkningsteknik (FEM, stat, etc.)
     - Hade hand om beräkningsservrarna
@@ -20,20 +23,19 @@
 **Helt Linux-orienterat!**
 
 - **Hosting**
-    - Har en del servrar
     - Har en del VPS:er
     - Kubernetes-kluster
 - **Nextcloud**
     - Har nextcloud servrar för våra kunder
 - **Support**
     - En del kontor har egna servrar
-    - Kontorsstuff ... problem som dyker upp (typ alltid skrivare :o )
+    - Kontorsstuff ... problem som dyker upp: typ skrivare, AD (såklart)
 - **Konsulting**
     - Sätta upp servrar
     - Sätta upp kluster
     - Projektledning, Allmänt stöd, etc.
 
-# Programmering vs. drift/support.
+# Programmering vs. drift.
 
 Det är en flytande gräns \ldots Men som jag ser det:
 
@@ -42,13 +44,15 @@ Det är en flytande gräns \ldots Men som jag ser det:
 Se till att det finns applikationer som är säkra och fungerar ihop med
 andra applikationer.
 
-## Drift/support
+## Drift
 
 Se till att det finns en säker och fungerande grund för
 applikationerna - **hela tiden!**
 
+Kan innebära en hel del programmering ändå :)
 
-# Först, lite om varför är GNU/Linux på typ alla servrar
+
+# Först, lite om varför GNU/Linux körs på typ alla servrar
 
 **GNU/Linux är:**
 
@@ -59,7 +63,7 @@ applikationerna - **hela tiden!**
 - **GNU + Linux**
 	- **GNU project** står för verktygen
 	- **Linux** är kärnan
-- **fritt licensierat (GPLv3)**
+- **fritt licensierat (GPL)**
     - Låg kostnad
     - Möjligt att ändra efter eget huvud
     - Tillgängligt
@@ -77,6 +81,7 @@ applikationerna - **hela tiden!**
 - **Väldigt stort ekosystem!**
     - massa applikationer!!
 - **Centralt repository**
+    - Enkel installation
 
 \eco
 
@@ -91,7 +96,7 @@ applikationerna - **hela tiden!**
     - Kan lägga till egna repon
     - Öppet format på paketen
     - Alla paket hanteras på ett sätt
-        - **dpkg** och **apt-get**
+        - **dpkg**, **apt** och **apt-get**
 - **Hårdvara**
     - funkar på nästan allt!
 
@@ -114,17 +119,19 @@ applikationerna - **hela tiden!**
     - Bundet till maskinen
     - Uppgradering av kapacitet är bökigt
     - Ny maskin $\rightarrow$ ny installation
-    -
+
 - **Virtuella maskiner** (en installation i en fil)
     - Bundet till den virtuella maskinen (som är en fil!)
     - Uppgradering av kapacitet är en editering av konf-fil
     - Ny maskin $\rightarrow$ copy-paste av VM
     - dock: Hos VPS-leverantör ofta nyinstallation
+
 - **Kontainer** - oftast *Docker* (En väldefinierad paketering)
     - Bundet till Containern
     - Uppgradering av kapacitet är en editering av konf-fil
     - Ny maskin $\rightarrow$ starta om kontainer-conf på ny maskin
     - Går att använda i kluster
+
 
 # Kort om Linux struktur, mest som påminnelse
 
@@ -135,18 +142,18 @@ applikationerna - **hela tiden!**
 
 \scriptsize
 
-| root-katalog | Användning                         |
-|--------------|------------------------------------|
-| /etc         | configurationsfilerna              |
-| /home        | users hem-katalog                  |
-| /var         | filer som ändras (bla loggarna db) |
-| /usr         | programmen med stödfiler           |
-| /opt         | Hem för programpaket (externa)     |
-| /srv         | Används ofta för serverns filer    |
-| /dev         | "devices"                          |
-| /proc        | "processes"                        |
-| /tmp         | temp-katalog                       |
-| /root        | roots hem katalog                  |
+| root-katalog | Användning                              |
+|--------------|-----------------------------------------|
+| /etc         | configurationsfilerna                   |
+| /home        | users hem-katalog                       |
+| /var         | filer som ändras (bla loggar, db, etc.) |
+| /usr         | programmen med stödfiler                |
+| /opt         | Hem för programpaket (externa)          |
+| /srv         | Används ofta för serverns filer         |
+| /dev         | "devices"                               |
+| /proc        | "processes"                             |
+| /tmp         | temp-katalog                            |
+| /root        | roots hem katalog                       |
 
 
 # Lite om rättigheter
@@ -156,7 +163,23 @@ applikationerna - **hela tiden!**
   - user : grupp : alla
 - och det går att sätta extra rättigheter (ACL)
 
+\tiny
 
+    -rw-r--r-- 1 niclas niclas 6.9K  3 Nov 16.15 LICENSE
+    -rw-r--r-- 1 niclas niclas 2.6K  3 Nov 16.15 anteckningar.org
+    -rw-r--r-- 1 niclas niclas  85K  3 Nov 16.15 cliCheatSheet.pdf
+    -rw-r--r-- 1 niclas niclas 126K  3 Nov 16.15 bunsenlabs.jpg
+    -rw-r--r-- 1 niclas niclas 1.1M  3 Nov 16.15 gnome.png
+    -rw-r--r-- 1 niclas niclas 268K  3 Nov 16.15 linuxfs.png
+    -rw-r--r-- 1 niclas niclas 285K  3 Nov 16.15 kde.jpeg
+    -rw-r--r-- 1 niclas niclas 190K  3 Nov 16.15 losenord.jpg
+    -rw-r--r-- 1 niclas niclas 164K  3 Nov 16.15 systemBeskrivning.pdf
+    -rwxrw-r-- 1 niclas niclas 564K  3 Nov 16.15 xfce.png
+    -rw-r--r-- 1 niclas niclas   87  3 Nov 16.15 README.md
+    -rw-r--r-- 1 niclas niclas 3.2M  3 Nov 16.21 pres.md.slides.pdf
+    -rw-r--r-- 1 niclas niclas 9.7K  3 Nov 16.28 pres.md
+
+\normalsize
 
 # Lite om distrubitionerna
 
@@ -185,11 +208,12 @@ Olika **distro** använder olika paketformat.
 
 - **deb** -paketering
     - Debian
-    - Ubuntu + andra
+    - Ubuntu + andra (många \ldots)
 
 - **annan** paketering
     - slackware
     - Arch
+    - NixOS, Gentoo, ...
 
 \eco
 
@@ -201,7 +225,8 @@ Olika **distro** använder olika paketformat.
 
 ##
 
-Osäker men nyfiken: det spelar inte så stor roll :) ubuntu, fedora
+Osäker men nyfiken: det spelar inte så stor roll :) ubuntu, fedora,
+debian, \ldots
 
 
 # Köra Linux direkt på HW
@@ -211,8 +236,9 @@ Osäker men nyfiken: det spelar inte så stor roll :) ubuntu, fedora
 - Hårdvara såklart!
     - Balansera investering mot behovet
     - Framtidssäkring kan bli dyrt
+
 - Distro:
-    - passar hårdvaran
+    - passar hårdvaran?
     - deb eller rpm?
 
 **Jobb:**
@@ -224,6 +250,7 @@ Osäker men nyfiken: det spelar inte så stor roll :) ubuntu, fedora
 
 
 # Köra Linux på virtuell maskin
+
 
 **Finns två möjligheter:**
 
@@ -274,33 +301,36 @@ Server)
 
 Värt att tänka på:
 
-- **Lokalisering:** Sverige, Europa, Amerikat
+- **Lokalisering:** Sverige, Europa, Amerikat, Kina, \ldots
 - **Interna, externa**-nätverk : interna viktigt vid kluster
 - **Färdiguppsatta VM:er**
 - **Maskin** & **Lagring**
 - **Kostnad** - kolla runt lite
 - **Fundera på vad som är viktigt!**
 
+
+
 # Hur att kommunicera
 
-En server (web eller annat) sitter ofta någon annan stans.
+En server (web eller annat) sitter ofta någon annanstans. Det är
+sällan man jobbar direkt med tangentbordet kopplat till servern.
 
 Kommunikationen sker via nätverket.
 
-**ssh**  secure shell
+$\rightarrow$ **ssh**  secure shell
 
 öppnar en krypterad tunnel till servern. Exempel:
 
     ssh -p 222 orestad@112.67.45.23
 
-- **ssh** kommando
-- **-p 222** försöker öppna på port 222
-- **orestad** användaren på servern
-- **112.67.45.23** ip-adressen till servern
+- **ssh**: kommando
+- **-p 222**: försöker öppna på port 222
+- **orestad**: användaren på servern
+- **112.67.45.23**: ip-adressen till servern
 
-Om orestad finns på 112.67.45.23 och får logga in så öppnas en tunnel.
+Om användare orestad finns på 112.67.45.23 och får logga in så öppnas en tunnel.
 
-# Att hantera vid igångsättning av server
+# Att hantera vid igångsättning av server  1/2
 
 - **Distro** - jag tycker om Debian
 - **Uppdatera**
@@ -315,7 +345,18 @@ Om orestad finns på 112.67.45.23 och får logga in så öppnas en tunnel.
 - **Håll koll på portarna utåt**
     - iptables styr de öppna portarna
     - iptables-persistent ser till att iptables finns kvar vid omstart
+
+
+# Att hantera vid igångsättning av server 2/2
+
 - **Kolla tiden NTP**
+- **Kolla vilka processerservicar som körs**
+    - \texttt{systemctl list-units -t service}
+    - Ta bort de som ni inte vill ha
+- **Back-up??**
+    - till var?
+        - leverantörsbackup eller annan server
+    - borg backup
 
 
 # ssh login
@@ -331,15 +372,30 @@ Om orestad finns på 112.67.45.23 och får logga in så öppnas en tunnel.
 
 **Endast nyckel**
 
+\scriptsize
+
 På server: i /etc/ssh/sshd_config
 
     PasswordAuthentication no
 
+Lokalt generera nyckel och sedan kopiera till server
+
+    ssh-keygen -t ed25519
+    ssh-copy-id root@10.20.30.41
+
+eller copy paste pub-nyckeln in i serverns
+
+    ~/.ssh/authorized_keys
+
 \eco
+
+\normalsize
 
 # iptables
 
-Det finns andra brandväggar (typ ufw) , men de configurerar bara iptables så..
+Det finns andra brandväggar (typ ufw) , men de configurerar ofta bara
+iptables så..
+Dock så finns **nftables** som ett alternativ. Ej så vanlig än.
 
 \scriptsize
 
@@ -386,7 +442,7 @@ lägga till regel:
 # allmän serverhantering
 
 - **intrång**
-    - oftast (tror jag) via applikationer
+    - oftast (enligt min erfarenhet) via applikationer
     - shit happens!
     - $\rightarrow$ damage control!
 - **intrångsförsök**
@@ -409,7 +465,7 @@ dina vänner heter:
 - cat
 - tail
 - history
-- screen
+- screen/tmux
 - ip
 - find
 - man
