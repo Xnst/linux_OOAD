@@ -1,3 +1,8 @@
+%"Linuxservrar - hur! och var!"
+%"Niclas Stenberg - niclas.stenberg@orestad-linux.se"
+%2025-11-04
+
+
 <!-- --- -->
 <!-- This file (c) 2025 by Niclas Stenberg -->
 <!--  -->
@@ -7,12 +12,8 @@
 <!-- You should have received a copy of the license along with this -->
 <!-- work.  If not, see <http://creativecommons.org/licenses/by-sa/4.0/>. -->
 <!-- --- -->
----
-title: "Linuxservrar - hur! och var!"
-author: "Niclas Stenberg - niclas.stenberg@orestad-linux.se"
-date: 2024-11-04
-license:  "CC-BY-SA"
----
+<!-- license:  "CC-BY-SA" -->
+<!-- --- -->
 
 # Jag  (Niclas Stenberg)
 
@@ -42,7 +43,8 @@ license:  "CC-BY-SA"
 - **Konsulting**
     - Sätta upp servrar
     - Sätta upp kluster
-    - Projektledning, Allmänt stöd, etc.
+    - Support, Allmänt stöd, etc.
+    - datahantering och analys
 
 # Programmering vs. drift.
 
@@ -74,7 +76,7 @@ Kan innebära en hel del programmering ändå :)
 	- **Linux** är kärnan
 - **fritt licensierat (GPL)**
     - Låg kostnad
-    - Möjligt att ändra efter eget huvud
+    - FÅR ändra efter eget huvud - precis som du vill
     - Tillgängligt
 - **Bygger på att folk hjälper varandra**
     - Enkelt få hjälp
@@ -101,7 +103,7 @@ Kan innebära en hel del programmering ändå :)
 \co
 
 - **Repositories**
-    - Debian har ~172000 paket
+    - Debian har > 38000 paket i "main"
     - Kan lägga till egna repon
     - Öppet format på paketen
     - Alla paket hanteras på ett sätt
@@ -122,7 +124,7 @@ Kan innebära en hel del programmering ändå :)
 
 
 
-# Köra Linux direkt på HW, virtuell maskin eller kontainer. Vad är skillnaden?
+# Köra Linux direkt på HW, virtuell maskin eller container. Vad är skillnaden?
 
 - **Hårdvara**
     - Bundet till maskinen
@@ -135,7 +137,7 @@ Kan innebära en hel del programmering ändå :)
     - Ny maskin $\rightarrow$ copy-paste av VM
     - dock: Hos VPS-leverantör ofta nyinstallation
 
-- **Kontainer** - oftast *Docker* (En väldefinierad paketering)
+- **Container** - oftast *Docker* (En väldefinierad paketering)
     - Bundet till Containern
     - Uppgradering av kapacitet är en editering av konf-fil
     - Ny maskin $\rightarrow$ starta om kontainer-conf på ny maskin
@@ -222,7 +224,7 @@ Olika **distro** använder olika paketformat.
 - **annan** paketering
     - slackware
     - Arch
-    - NixOS, Gentoo, ...
+    - NixOS, Gentoo, Alpine, ...
 
 \eco
 
@@ -234,7 +236,7 @@ Olika **distro** använder olika paketformat.
 
 ##
 
-Osäker men nyfiken: det spelar inte så stor roll :) ubuntu, fedora,
+Osäker men nyfiken? det spelar inte så stor roll :) ubuntu, fedora,
 debian, \ldots
 
 
@@ -285,6 +287,8 @@ Kontainrar: i.e. docker i denna pres.
 
 *Docker är en sluten produkt, men det finns fria alternativ som används mer och mer.*
 
+*podman & nerdctl verkar vara populära fria alternativ.*
+
 **Behöver**
 
 - En maskin som kör en docker-server
@@ -293,12 +297,12 @@ Kontainrar: i.e. docker i denna pres.
 
 **Val:**
 
-- vilken image eller bygg egen
+- vilken image? eller bygg egen?
 
-**Kontainrar funkar bra i kluster**
+**Kontainrar funkar väldigt bra i kluster**
 
 - Docker swarm
-- Kubernetes
+- Kubernetes (lite av default klusterinfrastruktur)
 
 
 # Några ord om leverantörer av Virtuella Maskiner
@@ -324,7 +328,7 @@ Värt att tänka på:
 En server (web eller annat) sitter ofta någon annanstans. Det är
 sällan man jobbar direkt med tangentbordet kopplat till servern.
 
-Kommunikationen sker via nätverket.
+Kommunikationen sker via nätverket där **ssh** körs som en service på modermaskinen.
 
 $\rightarrow$ **ssh**  secure shell
 
@@ -338,6 +342,7 @@ $\rightarrow$ **ssh**  secure shell
 - **112.67.45.23**: ip-adressen till servern
 
 Om användare orestad finns på 112.67.45.23 och får logga in så öppnas en tunnel.
+
 
 # Att hantera vid igångsättning av server  1/2
 
@@ -368,6 +373,7 @@ Om användare orestad finns på 112.67.45.23 och får logga in så öppnas en tu
     - borg backup
 
 
+
 # ssh login
 
 \bco
@@ -387,7 +393,7 @@ På server: i /etc/ssh/sshd_config
 
     PasswordAuthentication no
 
-Lokalt generera nyckel och sedan kopiera till server
+Lokalt generera nyckel och sedan kopiera till server (med lösen!)
 
     ssh-keygen -t ed25519
     ssh-copy-id root@10.20.30.41
@@ -395,6 +401,7 @@ Lokalt generera nyckel och sedan kopiera till server
 eller copy paste pub-nyckeln in i serverns
 
     ~/.ssh/authorized_keys
+    chmod 600 ~/.ssh/authorized_keys
 
 \eco
 
@@ -404,7 +411,7 @@ eller copy paste pub-nyckeln in i serverns
 
 Det finns andra brandväggar (typ ufw) , men de configurerar ofta bara
 iptables så..
-Dock så finns **nftables** som ett alternativ. Ej så vanlig än.
+Dock så finns **nftables** som ett modernare alternativ. Ej så vanlig än.
 
 \scriptsize
 
@@ -453,21 +460,40 @@ lägga till regel:
 - **intrång**
     - oftast (enligt min erfarenhet) via applikationer
     - shit happens!
-    - $\rightarrow$ damage control!
+      - $\rightarrow$ damage control!
 - **intrångsförsök**
     - fail2ban (ssh) finns andra alternativ
     - kolla loggarna!!
 - **full disk**
     - ofta loggarna som blir stora
-- **övervakning**
+	  - se till att loggarna inte får bli för stora.
+- **Övervakning:**
+	- en övervakningsservice? eller manuellt kolla loggarna?
+
+# systemd
+
+vanligast! Det finns distro utan systemd
+
+**kan:**
+
+- hantera all startup (om systemd används)
+- hantera alla servicar (om systemd används)
+- hantera loggarna (om configurerad)
+- hantera *timers* (typ cron)  (om configurerad)
+
+cmd: **systemctl**  (systemd control)
+
+ex:
+
+**systemctl list-units -t service**
 
 
 
 # Viktigt
 
-**cd /var/log**
+**cd /var/log**  eller **journalctl** för att kolla loggarna
 
-dina vänner heter:
+dina vänner vid prompten heter:
 
 - ls, cd
 - grep

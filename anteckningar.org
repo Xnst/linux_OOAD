@@ -1,16 +1,16 @@
 # ---
 # This file (c) 2025 by Niclas Stenberg
-# 
+#
 # This file is licensed under a
 # Creative Commons Attribution-ShareAlike 4.0 Unported License.
-# 
+#
 # You should have received a copy of the license along with this
 # work.  If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
 # ---
 #+TITLE:Linuxservrar - hur! och var! - notes
 #+AUTHOR: Niclas Stenberg
 #+EMAIL: niclas.stenberg@orestad-linux.se
-#+DATE: 2022-10-07
+#+DATE: 2025-11-04
 #+SETUPFILE: ~/.emacs.d/latexConf.org
 
 * Kommandon för att komma igång med en säker server
@@ -31,7 +31,7 @@
       :FORWARD DROP [0:0]
       :OUTPUT ACCEPT [0:0]
       -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-      -A INPUT -s 127.0.0.0/8 -d 127.0.0.0/8 -i lo -j ACCEPT
+      -A INPUT -i lo -j ACCEPT
       -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
       -A INPUT -p tcp --dport 80 -m state --state NEW -j ACCEPT
       -A INPUT -p tcp --dport 443 -m state --state NEW -j ACCEPT
