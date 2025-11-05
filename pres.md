@@ -103,7 +103,7 @@ Kan innebära en hel del programmering ändå :)
 \co
 
 - **Repositories**
-    - Debian har > 38000 paket i "main"
+    - Debian har > 69000 paket i "main"
     - Kan lägga till egna repon
     - Öppet format på paketen
     - Alla paket hanteras på ett sätt
