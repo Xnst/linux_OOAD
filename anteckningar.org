@@ -17,55 +17,111 @@
 
 #+BEGIN_SRC sh
 
-apt update
-apt upgrade
-systemctl list-units -t service
-nano /etc/ssh/sshd_config
-apt install unattended-upgrades
-apt install iptables
-apt install iptables-persistent
-nano /etc/iptables/rules.v4
-# ---
-*filter
-:INPUT DROP [0:0]
-:FORWARD DROP [0:0]
-:OUTPUT ACCEPT [0:0]
--A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
--A INPUT -i lo -j ACCEPT
--A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
--A INPUT -p tcp --dport 80 -m state --state NEW -j ACCEPT
--A INPUT -p tcp --dport 443 -m state --state NEW -j ACCEPT
-COMMIT
-# ---
-
-apt install fail2ban
-nano /etc/logrotate.d/fail2ban
-
+  apt update
+  apt upgrade
+  systemctl list-units -t service
+  nano /etc/ssh/sshd_config
+  apt install unattended-upgrades
+  apt install iptables
+  apt install iptables-persistent
+  nano /etc/iptables/rules.v4
   # ---
-  size 1G
-  rotate 4
-  compress
+  ,*filter
+  :INPUT DROP [0:0]
+  :FORWARD DROP [0:0]
+  :OUTPUT ACCEPT [0:0]
+  -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+  -A INPUT -i lo -j ACCEPT
+  -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
+  -A INPUT -p tcp --dport 80 -m state --state NEW -j ACCEPT
+  -A INPUT -p tcp --dport 443 -m state --state NEW -j ACCEPT
+  COMMIT
   # ---
 
-date
-timedatectl
-ln -fs /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
-date
+  apt install fail2ban
+  nano /etc/logrotate.d/fail2ban
 
-reboot
-iptables -S
+    # ---
+    size 1G
+    rotate 4
+    compress
+    # ---
 
-# --- swap
-fallocate -l 1G /swapfile
-chmod 600 /swapfile
-mkswap /swapfile
-swapon /swapfile
-echo "/swapfile    none    swap    sw    0    0" >> /etc/fstab
-echo "vm.swappiness=20" >> /etc/sysctl.conf
-sysctl --system
+  date
+  timedatectl
+  ln -fs /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
+  date
 
-apt install nginx
-systemctl list-units -t service
+  reboot
+  iptables -S
+
+  # --- swap
+  fallocate -l 1G /swapfile
+  chmod 600 /swapfile
+  mkswap /swapfile
+  swapon /swapfile
+  echo "/swapfile    none    swap    sw    0    0" >> /etc/fstab
+  echo "vm.swappiness=20" >> /etc/sysctl.conf
+  sysctl --system
+
+#+END_SRC
+
+* nginx
+
+
+#+BEGIN_SRC shell
+
+  apt install nginx
+  systemctl list-units -t service
+
+
+  # --- for info ---
+  # --- how to add certificate --
+
+  apt install certbot python3-certbot-nginx
+  apt-get install ssl-cert
+
+  make-ssl-cert generate-default-snakeoil
+
+  nano /etc/nginx/sites-available/sajt.se
+  # ---
+  server {
+  	listen 80;
+
+  	server_name	sajt.se;
+
+          location '/.well-known/acme-challenge' {
+                  default_type "text/plain";
+                  root /usr/share/nginx/certbot;
+          }
+
+  	location / {
+  		return 301 https://sajt.se$request_uri;
+  	}
+  }
+
+  server {
+  	listen 443 ssl;
+
+          access_log /var/log/nginx/sajt_access.log;
+          error_log /var/log/nginx/sajt_error.log;
+
+  	server_name	sajt.se;
+
+          root /usr/share/nginx/sajt.se/public
+
+          ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
+          ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
+
+  }
+  # ---
+
+  ln -s /etc/nginx/sites-available/sajt.se /etc/nginx/sites-enabled/sajt.se
+  nginx -t
+  systemctl restart nginx
+  certbot --nginx
+
+# --- end info ---
 
 #+END_SRC
 

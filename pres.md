@@ -15,6 +15,18 @@
 <!-- license:  "CC-BY-SA" -->
 <!-- --- -->
 
+# Länk till dokumenten
+
+[https://github.com/Xnst/linux_OOAD](https://github.com/Xnst/linux_OOAD)
+
+##
+- pres.md.slides.pdf
+- anteckningar.org
+- cliCheatSheet.pdf
+- systemBeskrivning.pdf
+- _och_ hjälpfiler till att skapa pres
+
+
 # Jag  (Niclas Stenberg)
 
 ## Bakgrund
